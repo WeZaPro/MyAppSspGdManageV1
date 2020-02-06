@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MyAppSspGdManageV1</string>
+
+    <array name="genres">
+        <item>Rock</item>
+        <item>Pop</item>
+        <item>Sufi</item>
+        <item>Disco</item>
+    </array>
+
+</resources>
