@@ -1,9 +1,12 @@
 package com.example.myappsspgdmanagev1;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
@@ -36,7 +40,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder imageViewHolder, int position) {
 
-        final Artist itemMyModel=mUploads.get(position);
+        Artist itemMyModel=mUploads.get(position);
 
         imageViewHolder.textViewName.setText(itemMyModel.getArtistName());
         imageViewHolder.textViewJob.setText(itemMyModel.getArtistJob());
@@ -48,12 +52,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 .centerCrop()
                 .into(imageViewHolder.imageView);
 
-        imageViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+        //imageViewHolder.itemView.setTag(position);
+        imageViewHolder.itemView.setTag(itemMyModel);
+
+        /*imageViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext,"item is : "+itemMyModel.getArtistName(),Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
     }
 
@@ -67,14 +74,28 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         TextView textViewName,textViewJob,textViewGenre;
         ImageView imageView;
 
+
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
+
+
             textViewName = itemView.findViewById(R.id.textViewName);
             textViewJob = itemView.findViewById(R.id.textViewJob);
             textViewGenre = itemView.findViewById(R.id.textViewGenre);
             imageView = itemView.findViewById(R.id.imageView);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //int position = (int) view.getTag();
+                    Artist myModels = (Artist) view.getTag();
 
+                    Intent intent = new Intent(mContext,ShowItemActivity.class);
+                    intent.putExtra("nameKey",myModels.getImgUrl());
+
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 }

@@ -1,8 +1,10 @@
 package com.example.myappsspgdmanagev1;
 
 
+import java.io.Serializable;
+
 // Model
-public class Artist {
+public class Artist{
     private String artistName;
     private String artistJob;
     private String artistGenre;
@@ -11,7 +13,6 @@ public class Artist {
     public Artist() {
         //this constructor is required
     }
-
 
     public Artist(String artistName,String artisJob, String artistGenre, String imgUrl) {
 

@@ -8,9 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ArtistList extends ArrayAdapter<Artist> {
+public class ArtistList extends ArrayAdapter<Artist> implements Serializable {
     private Activity context;
     List<Artist> artists;
 
