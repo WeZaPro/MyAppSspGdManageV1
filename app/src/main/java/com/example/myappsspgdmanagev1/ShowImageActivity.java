@@ -53,6 +53,7 @@ public class ShowImageActivity extends AppCompatActivity {
                 {
                     Artist myModel=postSnapshot.getValue(Artist.class);
                     mUploads.add(myModel);
+                    //String clubkey = postSnapshot.getKey();
                 }
                 mAdapter=new ImageAdapter(getApplicationContext(), mUploads);
                 mRecyclerView.setAdapter(mAdapter);

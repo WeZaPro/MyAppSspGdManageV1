@@ -14,6 +14,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -21,8 +26,12 @@ import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference mDatabaseRef = firebaseDatabase.getReference("uploads");
+
     private Context mContext;
     private List<Artist> mUploads;
+    String clubkey;
 
     public ImageAdapter(Context context, List<Artist> myModels)
     {
@@ -55,13 +64,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         //imageViewHolder.itemView.setTag(position);
         imageViewHolder.itemView.setTag(itemMyModel);
 
-        /*imageViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(mContext,"item is : "+itemMyModel.getArtistName(),Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
     }
 
     @Override
@@ -91,7 +93,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                     Artist myModels = (Artist) view.getTag();
 
                     Intent intent = new Intent(mContext,ItemActivity.class);
-                    intent.putExtra("nameKey",myModels.getImgUrl());
+                    /*intent.putExtra("urlKey",myModels.getImgUrl());
+                    intent.putExtra("nameKey",myModels.getArtistName());*/
+                    intent.putExtra("name",myModels);
 
                     mContext.startActivity(intent);
                 }
