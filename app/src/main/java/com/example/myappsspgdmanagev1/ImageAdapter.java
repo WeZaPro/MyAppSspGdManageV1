@@ -90,7 +90,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                     //int position = (int) view.getTag();
                     Artist myModels = (Artist) view.getTag();
 
-                    Intent intent = new Intent(mContext,ShowItemActivity.class);
+                    Intent intent = new Intent(mContext,ItemActivity.class);
                     intent.putExtra("nameKey",myModels.getImgUrl());
 
                     mContext.startActivity(intent);

@@ -8,12 +8,13 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-public class ShowItemActivity extends AppCompatActivity {
+public class ItemActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_item);
+        setContentView(R.layout.activity_item);
+
 
         ImageView imagViewItem = findViewById(R.id.imagViewItem);
 
@@ -28,6 +29,5 @@ public class ShowItemActivity extends AppCompatActivity {
                 .fit()
                 .centerCrop()
                 .into(imagViewItem);
-
     }
 }
