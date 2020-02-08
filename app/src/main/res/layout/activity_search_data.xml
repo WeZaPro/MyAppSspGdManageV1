@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SearchDataActivity">
+
+    <EditText
+        android:id="@+id/editTextSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="search"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="conClickSearch"
+        android:text="search"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:src="@mipmap/ic_launcher"
+        android:id="@+id/imageView"/>
+
+    <TextView
+        android:id="@+id/textViewShowDataName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="showDataName"
+        android:gravity="center"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textViewShowDataJob"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="showDataJob"
+        android:textSize="20sp"
+        android:gravity="center"/>
+
+
+</LinearLayout>
