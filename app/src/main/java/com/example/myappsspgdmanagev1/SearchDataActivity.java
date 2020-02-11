@@ -41,65 +41,54 @@ public class SearchDataActivity extends AppCompatActivity {
 
     public void conClickSearch(View view) {
 
-        /*mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        query = mFirebaseDatabaseReference.child("uploads").orderByChild("artistName").equalTo("Taweesak");
-        query.addValueEventListener(valueEventListener);
-
-        ValueEventListener valueEventListener = new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
-                {
-                    //TODO get the data here
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError)
-            {
-
-            }
-        };*/
-
         final String searchName = editTextSearch.getText().toString().trim();
 
         DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
+        // Search ข้อมูลที่ Child artistName โดยรับชื่อที่เช็คมาจาก Keyboard
         Query query = mDatabaseRef.orderByChild("artistName").equalTo(searchName);
 
+        // Query data
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                // เช็คข้อมูลว่าตรงกันหรือไม่
+                if (dataSnapshot.getChildrenCount() == 0) {
+                    Toast.makeText(SearchDataActivity.this, " No Data from you want ", Toast.LENGTH_SHORT).show();
 
-                    Artist models = data.getValue(Artist.class);
-                    String name = models.getArtistName();
-                    String job = models.getArtistJob();
-                    String imageUrl = models.getImgUrl();
+                    textViewShowDataName.setText("");
+                    textViewShowDataJob.setText("");
+                    imageView.setImageResource(R.drawable.imagepreview);
 
-                    textViewShowDataName.setText(name);
-                    textViewShowDataJob.setText(job);
+                } else {
 
-                    Picasso.with(SearchDataActivity.this)
-                            .load(imageUrl)
-                            .placeholder(R.drawable.imagepreview)
-                            .fit()
-                            .centerCrop()
-                            .into(imageView);
+                    for (DataSnapshot data : dataSnapshot.getChildren()) {
+
+                        // Get data ไปที่ Model Artist
+                        Artist models = data.getValue(Artist.class);
+                        String name = models.getArtistName();
+                        String job = models.getArtistJob();
+                        String imageUrl = models.getImgUrl();
+
+                        textViewShowDataName.setText(name);
+                        textViewShowDataJob.setText(job);
+
+                        Picasso.with(SearchDataActivity.this)
+                                .load(imageUrl)
+                                .placeholder(R.drawable.imagepreview)
+                                .fit()
+                                .centerCrop()
+                                .into(imageView);
+                    }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(SearchDataActivity.this,"Nodata ",Toast.LENGTH_SHORT).show();
+
             }
         });
-
 
     }
 }

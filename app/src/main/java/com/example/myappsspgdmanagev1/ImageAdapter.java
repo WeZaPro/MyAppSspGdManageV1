@@ -27,7 +27,7 @@ import java.util.List;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference mDatabaseRef = firebaseDatabase.getReference("uploads");
+    //DatabaseReference mDatabaseRef = firebaseDatabase.getReference("uploads");
 
     private Context mContext;
     private List<Artist> mUploads;
@@ -89,13 +89,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     //int position = (int) view.getTag();
                     Artist myModels = (Artist) view.getTag();
 
                     Intent intent = new Intent(mContext,ItemActivity.class);
-                    /*intent.putExtra("urlKey",myModels.getImgUrl());
-                    intent.putExtra("nameKey",myModels.getArtistName());*/
                     intent.putExtra("name",myModels);
+                    Toast.makeText(mContext,"KEY : "+myModels.getIdname(),Toast.LENGTH_SHORT).show();
 
                     mContext.startActivity(intent);
                 }

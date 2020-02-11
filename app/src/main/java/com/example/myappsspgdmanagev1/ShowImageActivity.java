@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.widget.AdapterView;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,7 +27,7 @@ public class ShowImageActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
     private ProgressBar progressBar;
-
+    View v;
 
     private DatabaseReference mDatabaseRef;
     private List<Artist> mUploads;
@@ -36,26 +37,23 @@ public class ShowImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_image);
 
-        mRecyclerView=findViewById(R.id.recycler_view);
+        mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mUploads=new ArrayList<>();
+        mUploads = new ArrayList<>();
 
         // ชี้ไปที่ Folder
-        /*mDatabaseRef= FirebaseDatabase.getInstance().getReference("uploads");*/
-        mDatabaseRef= FirebaseDatabase.getInstance().getReference("uploads");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapshot:dataSnapshot.getChildren())
-                {
-                    Artist myModel=postSnapshot.getValue(Artist.class);
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Artist myModel = postSnapshot.getValue(Artist.class);
                     mUploads.add(myModel);
-                    //String clubkey = postSnapshot.getKey();
                 }
-                mAdapter=new ImageAdapter(getApplicationContext(), mUploads);
+                mAdapter = new ImageAdapter(getApplicationContext(), mUploads);
                 mRecyclerView.setAdapter(mAdapter);
                 //progressBar.setVisibility(View.INVISIBLE);
             }
@@ -67,6 +65,12 @@ public class ShowImageActivity extends AppCompatActivity {
             }
         });
 
-
+    }
+    // ใส่เพราะเวลากดปุ่ม Back แล้ว RecyclerView Duplication
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(ShowImageActivity.this, MainActivity.class);
+        startActivity(i);
     }
 }

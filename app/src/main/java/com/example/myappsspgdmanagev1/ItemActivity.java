@@ -3,6 +3,7 @@ package com.example.myappsspgdmanagev1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -20,14 +21,13 @@ import com.squareup.picasso.Picasso;
 
 public class ItemActivity extends AppCompatActivity {
 
-    EditText editText;
+    EditText editTextName, editTextJob, editTextGenre, editTextUrl, editTextID;
     ImageView imagViewItem;
     Button btnUpdate;
     Artist myModel;
-    String clubkey;
 
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference mDatabaseRef = firebaseDatabase.getReference("uploads");
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +35,15 @@ public class ItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item);
 
         imagViewItem = findViewById(R.id.imagViewItem);
-        editText = findViewById(R.id.editText);
+        editTextName = findViewById(R.id.editTextName);
+        editTextJob = findViewById(R.id.editTextJob);
+        editTextGenre = findViewById(R.id.editTextGenre);
         btnUpdate = findViewById(R.id.btnUpdate);
 
         myModel = getIntent().getExtras().getParcelable("name");
-        editText.setText(myModel.getArtistName());
-
+        editTextName.setText(myModel.getArtistName());
+        editTextJob.setText(myModel.getArtistJob());
+        editTextGenre.setText(myModel.getArtistGenre());
 
         Picasso.with(this)
                 .load(myModel.getImgUrl())
@@ -49,40 +52,33 @@ public class ItemActivity extends AppCompatActivity {
                 .centerCrop()
                 .into(imagViewItem);
 
-
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Artist myModel = postSnapshot.getValue(Artist.class);
-                    clubkey = postSnapshot.getKey();
-                }
-            }
+            public void onClick(View view) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                updateArtist(myModel.getIdname(),
+                        editTextName.getText().toString(),
+                        editTextJob.getText().toString(),
+                        editTextGenre.getText().toString(),
+                        myModel.getImgUrl());
 
+                Intent i = new Intent(ItemActivity.this, ShowImageActivity.class);
+                startActivity(i);
+                finish();
             }
         });
     }
 
-    public void onclickUpdate(View view) {
+    private void updateArtist(String id, String name, String job, String genre, String url) {
 
-        updateArtist(editText.getText().toString(),clubkey);
+        databaseReference= FirebaseDatabase.getInstance().getReference("uploads").child(id);
 
-        //Toast.makeText(ItemActivity.this, "key : " + clubkey, Toast.LENGTH_SHORT).show();
+        Artist artist = new Artist(id, name, job, genre, url);
+        databaseReference.setValue(artist);
 
-    }
-
-    private boolean updateArtist(String name, String idName) {
-        //getting the specified artist reference
-        DatabaseReference dR = FirebaseDatabase.getInstance().getReference("uploads").child(idName);
-
-        //updating artist
-        Artist artist = new Artist(name,idName);
-        dR.setValue(artist);
         Toast.makeText(getApplicationContext(), "Artist Updated", Toast.LENGTH_LONG).show();
-        return true;
     }
 }
+
+
+

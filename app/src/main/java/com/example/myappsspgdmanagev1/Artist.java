@@ -18,13 +18,9 @@ public class Artist implements Parcelable {
         //this constructor is required
     }
 
-    public Artist(String artistName,String idname) {
-        this.artistName = artistName;
+    public Artist(String idname,String artistName, String artisJob, String artistGenre, String imgUrl) {
+
         this.idname = idname;
-    }
-
-    public Artist(String artistName, String artisJob, String artistGenre, String imgUrl) {
-
         this.artistName = artistName;
         this.artistJob = artisJob;
         this.artistGenre = artistGenre;
@@ -37,6 +33,7 @@ public class Artist implements Parcelable {
         artistJob = in.readString();
         artistGenre = in.readString();
         imgUrl = in.readString();
+        idname = in.readString();
     }
 
     public static final Creator<Artist> CREATOR = new Creator<Artist>() {
@@ -50,6 +47,10 @@ public class Artist implements Parcelable {
             return new Artist[size];
         }
     };
+
+    public String getIdname() {
+        return idname;
+    }
 
     public String getArtistName() {
         return artistName;
@@ -71,6 +72,7 @@ public class Artist implements Parcelable {
         this.imgUrl = imgUrl;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -82,5 +84,6 @@ public class Artist implements Parcelable {
         parcel.writeString(artistJob);
         parcel.writeString(artistGenre);
         parcel.writeString(imgUrl);
+        parcel.writeString(idname);
     }
 }
