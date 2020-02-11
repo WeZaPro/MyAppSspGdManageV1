@@ -53,7 +53,7 @@ public class SearchDataActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                // เช็คข้อมูลว่าตรงกันหรือไม่
+                // เช็คข้อมูลว่าตรงกันหรือไม่ ****
                 if (dataSnapshot.getChildrenCount() == 0) {
                     Toast.makeText(SearchDataActivity.this, " No Data from you want ", Toast.LENGTH_SHORT).show();
 
